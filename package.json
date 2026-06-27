@@ -2,9 +2,10 @@
   "name": "volunteerism",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "runner.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node runner.ts"
   },
   "keywords": [],
   "author": "",
@@ -13,6 +14,7 @@
   "dependencies": {
     "@types/node": "^26.0.1",
     "fs": "0.0.1-security",
-    "readline": "^1.3.0"
+    "readline": "^1.3.0",
+    "typescript": "^6.0.3"
   }
 }

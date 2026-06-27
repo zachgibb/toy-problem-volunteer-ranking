@@ -1,5 +1,5 @@
-import { Task } from "./task";
-import { Volunteer } from "./volunteer";
+import { Task } from "./task.ts";
+import { Volunteer } from "./volunteer.ts";
 
 type Assignment = {
   task: Task;
@@ -26,27 +26,23 @@ class AssignmentServer {
    * Returns a list of volunteers who are interested in the given task.
    */
   getInterestedVolunteers(task: Task): Volunteer[] {
-    return this.volunteers.filter((volunteer) => {
-      return volunteer.isInterested(task);
-    });
+    return this.volunteers
+      .filter((volunteer) => {
+        return volunteer.isInterested(task);
+      })
+      .sort((a, b) => b.getWeightedTaskScore(task) - a.getWeightedTaskScore(task));
   }
 
   /**
    * Assigns a volunteer to each task based on their interests.
    */
   assignTasks() {
-    // TODO:
-    // Make sure the first interested volunteer isn't getting assigned to every task over and over
-
-
     for (const task of this.tasks) {
       // list of interested volunteers
       const interestedVolunteers = this.getInterestedVolunteers(task);
 
       // list of unassigned volunteers
       const uninterestedVolunteers = this.volunteers.filter((volunteer) => interestedVolunteers.indexOf(volunteer) == -1);
-
-      console.log({interestedVolunteers, uninterestedVolunteers});
 
       // make initial assignment object
       const assignment: Assignment = {
@@ -64,6 +60,7 @@ class AssignmentServer {
         } else {
           selectedVolunteer = uninterestedVolunteers[index - interestedVolunteers.length];
         }
+        selectedVolunteer.assignTask(task);
         assignment.volunteers.push(selectedVolunteer);
       }
 
@@ -92,14 +89,25 @@ class AssignmentServer {
           totalSatisfactionScore += taskSatisfaction;
 
           // display assignee's satisfaction alongside the assignment
-          console.log(`\tAssigned to ${assignee}, Satisfaction Score: ${taskSatisfaction}`);
+          console.log(`\tAssigned to ${assignee}`);
         } else {
           console.log("\tUnassigned");
         }
       }
     }
 
-    console.log(`\nTotal Satisfaction Score: ${totalSatisfactionScore}`);
+    const volunteerListing = this.volunteers.map(volunteer => `${volunteer.name}\t| ${volunteer.assignedTasks}\t| ${volunteer.totalSatisfaction}`)
+
+    console.log(`
+============================
+Volunteers
+============================
+Name\t| Tasks\t| Satisfaction
+----------------------------
+${volunteerListing.join('\n')}
+
+Total Satisfaction Score: ${totalSatisfactionScore}`
+    );
   }
 }
 

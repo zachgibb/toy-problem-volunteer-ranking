@@ -1,9 +1,9 @@
-import { AssignmentServer } from "./assignmentServer";
-import { loadTasks, loadVolunteers } from "./util";
+import { AssignmentServer } from "./assignmentServer.ts";
+import { loadTasks, loadVolunteers } from "./util.ts";
 
 const main = async () => {
-  const tasks = await loadTasks("tasks.csv");
-  const volunteers = await loadVolunteers("volunteers.csv", tasks);
+  const tasks = await loadTasks("./tasks.csv");
+  const volunteers = await loadVolunteers("./volunteers.csv", tasks);
 
   // Instead of passing in Record<number, Type>, let's just use arrays.
   // This will allow us to use array methods like .filter/.map/.reduce without errors

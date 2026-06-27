@@ -23,7 +23,7 @@ Implement support for multi-person tasks. Some tasks are sophisticated and requi
 
 
 ## Task 3
-[ ] Completed
+[X] Completed
 
 Some volunteers have expressed dissatisfaction with the tasks they've been assigned. Suggest and implement changes to the algorithm for assigning tasks to volunteers so that the assignment yields a better assignment of tasks.
 
